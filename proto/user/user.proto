@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "git.mtnirancell.ir/digital/yelloadwise/services/contracts/contract/user;userpb";
+
+import "google/protobuf/timestamp.proto";
+
+// UserService provides RPC methods for user operations
+service UserService {
+  // GetUserByID retrieves a user by ID
+  rpc GetUserByID(GetUserByIDRequest) returns (GetUserByIDResponse);
+}
+
+// User status enum
+enum StatusTypeUser {
+  STATUS_TYPE_USER_UNSPECIFIED = 0;
+  STATUS_TYPE_USER_ACTIVE = 1;
+  STATUS_TYPE_USER_INACTIVE = 2;
+  STATUS_TYPE_USER_SUSPENDED = 3;
+  STATUS_TYPE_USER_DELETED = 4;
+}
+
+// User represents a user entity
+message User {
+  uint64 id = 1;
+  string email = 2;
+  string phone_number = 3;
+  StatusTypeUser status = 4;
+  bool verify = 5;
+  Profile profile = 6;
+  repeated Role roles = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+// Profile represents user profile information
+message Profile {
+  string first_name = 1;
+  string last_name = 2;
+  string avatar = 3;              // optional
+  string father_name = 4;         // optional
+  string national_id = 5;         // optional
+  string nationality = 6;          // optional
+  string country_code = 7;         // optional
+  string birthdate = 8;            // optional, ISO 8601 format string
+}
+
+// Role represents a user role
+message Role {
+  string id = 1;
+  string name = 2;
+  string description = 3;          // optional
+  bool full_access = 4;
+  bool admin_access = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+// GetUserByIDRequest for retrieving a user by ID
+message GetUserByIDRequest {
+  uint64 user_id = 1;
+}
+
+// GetUserByIDResponse returns the user data
+message GetUserByIDResponse {
+  User data = 1;
+}
+

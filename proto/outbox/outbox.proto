@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package outbox;
+
+option go_package = "git.mtnirancell.ir/digital/yelloadwise/services/contracts/contract/outbox;outboxpb";
+
+// OutboxService provides RPC methods for outbox operations
+service OutboxService {
+  // CreateMessage creates a new outbox message
+  rpc CreateMessage(CreateMessageRequest) returns (CreateMessageResponse);
+  
+  // GetMessage retrieves an outbox message by ID
+  rpc GetMessage(GetMessageRequest) returns (GetMessageResponse);
+  
+  // ListPendingMessages lists pending messages
+  rpc ListPendingMessages(ListPendingMessagesRequest) returns (ListPendingMessagesResponse);
+  
+  // UpdateMessageStatus updates the status of a message
+  rpc UpdateMessageStatus(UpdateMessageStatusRequest) returns (UpdateMessageStatusResponse);
+  
+  // DeleteMessage deletes a message
+  rpc DeleteMessage(DeleteMessageRequest) returns (DeleteMessageResponse);
+}
+
+// Message status enum
+enum MessageStatus {
+  MESSAGE_STATUS_UNSPECIFIED = 0;
+  MESSAGE_STATUS_PENDING = 1;
+  MESSAGE_STATUS_PUBLISHED = 2;
+  MESSAGE_STATUS_FAILED = 3;
+}
+
+// OutboxMessage represents a message in the outbox
+message OutboxMessage {
+  string id = 1;
+  string aggregate_id = 2;
+  string aggregate_type = 3;
+  string event_type = 4;
+  bytes payload = 5;
+  MessageStatus status = 6;
+  int32 retry_count = 7;
+  int64 created_at = 8;  // Unix timestamp
+  int64 updated_at = 9;  // Unix timestamp
+  int64 published_at = 10;  // Unix timestamp (0 if not published)
+}
+
+// CreateMessageRequest for creating a new outbox message
+message CreateMessageRequest {
+  string aggregate_id = 1;
+  string aggregate_type = 2;
+  string event_type = 3;
+  bytes payload = 4;
+}
+
+// CreateMessageResponse returns the created message
+message CreateMessageResponse {
+  OutboxMessage message = 1;
+}
+
+// GetMessageRequest for retrieving a message by ID
+message GetMessageRequest {
+  string id = 1;
+}
+
+// GetMessageResponse returns the message
+message GetMessageResponse {
+  OutboxMessage message = 1;
+}
+
+// ListPendingMessagesRequest for listing pending messages
+message ListPendingMessagesRequest {
+  int32 limit = 1;  // Maximum number of messages to return
+}
+
+// ListPendingMessagesResponse returns a list of pending messages
+message ListPendingMessagesResponse {
+  repeated OutboxMessage messages = 1;
+}
+
+// UpdateMessageStatusRequest for updating message status
+message UpdateMessageStatusRequest {
+  string id = 1;
+  MessageStatus status = 2;
+}
+
+// UpdateMessageStatusResponse confirms the update
+message UpdateMessageStatusResponse {
+  bool success = 1;
+}
+
+// DeleteMessageRequest for deleting a message
+message DeleteMessageRequest {
+  string id = 1;
+}
+
+// DeleteMessageResponse confirms the deletion
+message DeleteMessageResponse {
+  bool success = 1;
+}
+
