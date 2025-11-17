@@ -730,7 +730,7 @@ const file_outbox_outbox_proto_rawDesc = "" +
 	"GetMessage\x12\x19.outbox.GetMessageRequest\x1a\x1a.outbox.GetMessageResponse\x12^\n" +
 	"\x13ListPendingMessages\x12\".outbox.ListPendingMessagesRequest\x1a#.outbox.ListPendingMessagesResponse\x12^\n" +
 	"\x13UpdateMessageStatus\x12\".outbox.UpdateMessageStatusRequest\x1a#.outbox.UpdateMessageStatusResponse\x12L\n" +
-	"\rDeleteMessage\x12\x1c.outbox.DeleteMessageRequest\x1a\x1d.outbox.DeleteMessageResponseBTZRgit.mtnirancell.ir/digital/yelloadwise/services/contracts/contract/outbox;outboxpbb\x06proto3"
+	"\rDeleteMessage\x12\x1c.outbox.DeleteMessageRequest\x1a\x1d.outbox.DeleteMessageResponseB?Z=github.com/mehrdad-masoumi/contracts/contract/outbox;outboxpbb\x06proto3"
 
 var (
 	file_outbox_outbox_proto_rawDescOnce sync.Once

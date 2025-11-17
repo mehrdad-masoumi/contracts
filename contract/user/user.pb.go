@@ -524,7 +524,7 @@ const file_user_user_proto_rawDesc = "" +
 	"\x1aSTATUS_TYPE_USER_SUSPENDED\x10\x03\x12\x1c\n" +
 	"\x18STATUS_TYPE_USER_DELETED\x10\x042Q\n" +
 	"\vUserService\x12B\n" +
-	"\vGetUserByID\x12\x18.user.GetUserByIDRequest\x1a\x19.user.GetUserByIDResponseBPZNgit.mtnirancell.ir/digital/yelloadwise/services/contracts/contract/user;userpbb\x06proto3"
+	"\vGetUserByID\x12\x18.user.GetUserByIDRequest\x1a\x19.user.GetUserByIDResponseB;Z9github.com/mehrdad-masoumi/contracts/contract/user;userpbb\x06proto3"
 
 var (
 	file_user_user_proto_rawDescOnce sync.Once
