@@ -11,7 +11,7 @@
 برای استفاده از این پکیج در سرویس‌های دیگر:
 
 ```bash
-go get git.mtnirancell.ir/digital/yelloadwise/services/contracts
+go get github.com/mehrdad-masoumi/contracts
 ```
 
 ## ساخت فایل‌های Go
@@ -57,7 +57,7 @@ make proto
 
 ```go
 import (
-    outboxpb "git.mtnirancell.ir/digital/yelloadwise/services/contracts/contract/outbox"
+    outboxpb "github.com/mehrdad-masoumi/contracts/contract/outbox"
     "google.golang.org/grpc"
 )
 ```
@@ -72,7 +72,7 @@ import (
     "log"
     "net"
 
-    outboxpb "git.mtnirancell.ir/digital/yelloadwise/services/contracts/outbox"
+    outboxpb "github.com/mehrdad-masoumi/contracts/contract/outbox"
     "google.golang.org/grpc"
 )
 
@@ -104,7 +104,7 @@ func (s *server) CreateMessage(ctx context.Context, req *outboxpb.CreateMessageR
 
 ```go
 import (
-    outboxpb "git.mtnirancell.ir/digital/yelloadwise/services/contracts/outbox"
+    outboxpb "github.com/mehrdad-masoumi/contracts/contract/outbox"
     "google.golang.org/grpc"
 )
 

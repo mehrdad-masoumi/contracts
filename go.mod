@@ -1,4 +1,4 @@
-module git.mtnirancell.ir/digital/yelloadwise/services/contracts
+module github.com/mehrdad-masoumi/contracts
 
 go 1.21
 
