@@ -1,7 +1,7 @@
 .PHONY: proto clean deps tidy
 
 TOOLS_PROTOC := $(firstword $(wildcard tools/protoc/bin/protoc tools/protoc/bin/protoc.exe))
-PROTO_FILES := $(wildcard proto/outbox/*.proto) $(wildcard proto/user/*.proto)
+PROTO_FILES := $(wildcard proto/outbox/*.proto) $(wildcard proto/user/*.proto) $(wildcard proto/campaign/*.proto)
 PROTOC_INCLUDE := --proto_path=proto
 
 ifeq ($(TOOLS_PROTOC),)
@@ -25,6 +25,7 @@ proto:
 clean:
 	rm -f contract/outbox/*.pb.go contract/outbox/*_grpc.pb.go
 	rm -f contract/user/*.pb.go contract/user/*_grpc.pb.go
+	rm -f contract/campaign/*.pb.go contract/campaign/*_grpc.pb.go
 
 # Install dependencies
 deps:

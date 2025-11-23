@@ -40,7 +40,7 @@ fi
        --go-grpc_out=contract --go-grpc_opt=paths=source_relative \
        --proto_path=proto \
        --proto_path=tools/protoc/include \
-       proto/outbox/outbox.proto proto/user/user.proto
+       proto/outbox/outbox.proto proto/user/user.proto proto/campaign/campaign.proto
 
 if [ $? -eq 0 ]; then
     echo "Successfully generated Go files!"
@@ -48,6 +48,8 @@ if [ $? -eq 0 ]; then
     echo "  - contract/outbox/outbox_grpc.pb.go"
     echo "  - contract/user/user.pb.go"
     echo "  - contract/user/user_grpc.pb.go"
+    echo "  - contract/campaign/campaign.pb.go"
+    echo "  - contract/campaign/campaign_grpc.pb.go"
 else
     echo "Error: Failed to generate Go files"
     exit 1

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package campaign;
+
+option go_package = "github.com/mehrdad-masoumi/contracts/contract/campaign;campaignpb";
+
+// CampaignService provides RPC methods for campaign operations
+service CampaignService {
+  // GetCampaign retrieves a campaign by ID
+  rpc GetCampaign(GetCampaignRequest) returns (GetCampaignResponse);
+  
+  // CloseCampaign closes a campaign
+  rpc CloseCampaign(CloseCampaignRequest) returns (CloseCampaignResponse);
+}
+
+// Campaign represents a campaign entity
+message Campaign {
+  int32 campaign_id = 1;
+  string token = 2;
+  int32 target = 3;
+  int32 industry = 4;
+  bool status = 5;
+}
+
+// GetCampaignRequest for retrieving a campaign by ID
+message GetCampaignRequest {
+  int32 campaign_id = 1;
+}
+
+// GetCampaignResponse returns the campaign
+message GetCampaignResponse {
+  Campaign campaign = 1;
+}
+
+// CloseCampaignRequest for closing a campaign
+message CloseCampaignRequest {
+  int32 campaign_id = 1;
+}
+
+// CloseCampaignResponse confirms the campaign closure
+message CloseCampaignResponse {
+  bool success = 1;
+}
