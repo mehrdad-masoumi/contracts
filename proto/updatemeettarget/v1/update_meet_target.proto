@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package updatemeettarget.v1;
+
+option go_package = "github.com/mehrdad-masoumi/contracts/contract/updatemeettarget/v1;updatemeettargetv1";
+
+// MeetTargetType classifies which interaction contributed to the meet-target batch.
+enum MeetTargetType {
+  MEET_TARGET_TYPE_UNSPECIFIED = 0;
+  MEET_TARGET_TYPE_CLICK = 1;
+  MEET_TARGET_TYPE_REGISTER = 2;
+  MEET_TARGET_TYPE_DOWNLOAD = 3;
+  MEET_TARGET_TYPE_INSTALL = 4;
+  MEET_TARGET_TYPE_KYC = 5;
+  MEET_TARGET_TYPE_ORDER = 6;
+  MEET_TARGET_TYPE_IMPRESSION = 7;
+}
+
+// UpdateMeetTarget is the payload for LINK_UPDATE_TARGET (campaign meet-target flush).
+message UpdateMeetTarget {
+  string token = 1;
+  int32 delta = 2;
+  MeetTargetType type = 3;
+}

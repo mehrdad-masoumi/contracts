@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package impression.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/mehrdad-masoumi/contracts/contract/impression/v1;impressionv1";
+
+// ImpressionReportType classifies the cumulative report type.
+enum ImpressionReportType {
+  IMPRESSION_REPORT_TYPE_UNSPECIFIED = 0;
+  IMPRESSION_REPORT_TYPE_IMPRESSION = 1;
+}
+
+// ImpressionEvent is the published contract for IMPRESSION_EVENT.
+message ImpressionEvent {
+  int64 impression_event_id = 1;
+  string zone_id = 2;
+  string user_id = 3;
+  string msisdn = 4;
+  string user_agent = 5;
+  string browser = 6;
+  string browser_version = 7;
+  string os = 8;
+  string os_version = 9;
+  string device = 10;
+  string ip_address = 11;
+  string referer = 12;
+  string origin = 13;
+  string accept_language = 14;
+  string accept_encoding = 15;
+  string sec_ch_ua = 16;
+  string sec_ch_ua_mobile = 17;
+  string sec_ch_ua_platform = 18;
+  google.protobuf.Timestamp created_at = 19;
+}
+
+// UpdateImpressionReport is the payload for IMPRESSION_UPDATE_REPORT (cumulative batch flush).
+message UpdateImpressionReport {
+  string zone_id = 1;
+  int32 delta = 2;
+  ImpressionReportType type = 3;
+}

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package link.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/mehrdad-masoumi/contracts/contract/link/v1;linkv1";
+
+// LinkClickEvent is the published contract for LINK_CLICK_EVENT.
+message LinkClickEvent {
+  int64 click_event_id = 1;
+  string token = 2;
+  string label = 3;
+  string msisdn = 4;
+  string user_agent = 5;
+  string browser = 6;
+  string browser_version = 7;
+  string os = 8;
+  string os_version = 9;
+  string device = 10;
+  string ip_address = 11;
+  string referer = 12;
+  string accept_language = 13;
+  string accept_encoding = 14;
+  google.protobuf.Timestamp created_at = 15;
+  optional string tracker_token = 16;
+}

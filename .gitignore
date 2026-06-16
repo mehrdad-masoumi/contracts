@@ -25,6 +25,9 @@ go.work
 .DS_Store
 Thumbs.db
 
+# Vendored dependencies (not used in this module)
+vendor/
+
 # Tools (protoc is downloaded locally)
 tools/
 
