@@ -18,11 +18,13 @@ Contracts are versioned under `v1`.
 contracts/
 ├── proto/
 │   ├── outbox/v1/outbox.proto
-│   └── adinfo/v1/adinfo.proto
+│   ├── adinfo/v1/adinfo.proto
+│   └── tracker/v1/tracker.proto
 └── contract/
     ├── outbox/v1/
     ├── outboxcontract/
-    └── adinfo/v1/
+    ├── adinfo/v1/
+    └── tracker/v1/
 ```
 
 Use the generated Go packages from `contract/`:
@@ -32,6 +34,7 @@ import (
 	outboxv1 "github.com/mehrdad-masoumi/contracts/contract/outbox/v1"
 	outboxcontract "github.com/mehrdad-masoumi/contracts/contract/outboxcontract"
 	adinfov1 "github.com/mehrdad-masoumi/contracts/contract/adinfo/v1"
+	trackerv1 "github.com/mehrdad-masoumi/contracts/contract/tracker/v1"
 )
 ```
 

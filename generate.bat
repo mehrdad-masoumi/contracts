@@ -1,8 +1,8 @@
 @echo off
-setlocal
+setlocal EnableDelayedExpansion
 set PROTOC_BIN=
-set INCLUDE_ARGS=--proto_path=proto
-set PROTO_FILES=proto\outbox\v1\outbox.proto proto\adinfo\v1\adinfo.proto
+set INCLUDE_ARGS=--proto_path="%CD%\proto"
+set PROTO_FILES=
 if "%PROTOC_GEN_GO_VERSION%"=="" set PROTOC_GEN_GO_VERSION=v1.33.0
 if "%PROTOC_GEN_GO_GRPC_VERSION%"=="" set PROTOC_GEN_GO_GRPC_VERSION=v1.4.0
 
@@ -47,10 +47,19 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 if exist "%~dp0tools\protoc\include" (
-    set INCLUDE_ARGS=%INCLUDE_ARGS% --proto_path=tools\protoc\include
+    set INCLUDE_ARGS=%INCLUDE_ARGS% --proto_path="%CD%\tools\protoc\include"
 )
 
-"%PROTOC_BIN%" --go_out=contract --go_opt=paths=source_relative --go-grpc_out=contract --go-grpc_opt=paths=source_relative %INCLUDE_ARGS% %PROTO_FILES%
+for /r proto %%f in (*.proto) do (
+    set PROTO_FILES=!PROTO_FILES! %%f
+)
+
+if "!PROTO_FILES!"=="" (
+    echo Error: no proto files found under proto
+    exit /b 1
+)
+
+"%PROTOC_BIN%" --go_out=contract --go_opt=paths=source_relative --go-grpc_out=contract --go-grpc_opt=paths=source_relative %INCLUDE_ARGS% !PROTO_FILES!
 
 if %ERRORLEVEL% EQU 0 (
     echo Successfully generated Go files!
