@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package outbox.v1;
+
+option go_package = "github.com/mehrdad-masoumi/contracts/contract/outbox/v1;outboxv1";
+
+import "google/protobuf/struct.proto";
+
+// OutboxService provides RPC methods for outbox operations.
+service OutboxService {
+  // AddEvent stores a domain event in the outbox for later delivery.
+  rpc AddEvent(AddEventRequest) returns (AddEventResponse);
+}
+
+// AddEventRequest is used to store a domain event in the outbox.
+message AddEventRequest {
+  string aggregate_type = 1;
+  uint64 aggregate_id = 2;
+  string event_type = 3;
+  bytes payload = 4;
+  repeated string des = 5;
+  google.protobuf.Struct headers = 6;
+}
+
+// AddEventResponse is empty when the event is accepted.
+message AddEventResponse {}

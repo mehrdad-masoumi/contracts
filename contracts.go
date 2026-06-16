@@ -1,14 +1,15 @@
-// Package contracts provides gRPC service contracts for microservices.
+// Package contracts provides shared protobuf contracts for Go microservices.
 //
 // This package contains protobuf definitions for:
 //   - Outbox Service: outbox message management
-//   - User Service: user and profile management
+//   - OutboxPattern: direct Go interface for outbox dependencies
+//   - AdInfo messages: RabbitMQ protobuf serialization
 //
 // Import the specific subpackages you need:
 //
 //	import (
-//		outboxpb "github.com/mehrdad-masoumi/contracts/contract/outbox"
-//		userpb "github.com/mehrdad-masoumi/contracts/contract/user"
+//		outboxv1 "github.com/mehrdad-masoumi/contracts/contract/outbox/v1"
+//		outboxcontract "github.com/mehrdad-masoumi/contracts/contract/outboxcontract"
+//		adinfov1 "github.com/mehrdad-masoumi/contracts/contract/adinfo/v1"
 //	)
 package contracts
-

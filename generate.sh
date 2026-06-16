@@ -3,6 +3,9 @@
 echo "Generating Go files from protobuf..."
 
 PROTOC_BIN=""
+PROTO_INCLUDE_ARGS=(--proto_path=proto)
+PROTOC_GEN_GO_VERSION="${PROTOC_GEN_GO_VERSION:-v1.33.0}"
+PROTOC_GEN_GO_GRPC_VERSION="${PROTOC_GEN_GO_GRPC_VERSION:-v1.4.0}"
 
 # Check if protoc is installed globally
 if command -v protoc &> /dev/null; then
@@ -23,33 +26,39 @@ else
     exit 1
 fi
 
+if [ -d "./tools/protoc/include" ]; then
+    PROTO_INCLUDE_ARGS+=(--proto_path=tools/protoc/include)
+fi
+
 # Check if protoc-gen-go is installed
 if ! command -v protoc-gen-go &> /dev/null; then
     echo "Warning: protoc-gen-go not found. Installing..."
-    go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+    go install "google.golang.org/protobuf/cmd/protoc-gen-go@${PROTOC_GEN_GO_VERSION}"
 fi
 
 # Check if protoc-gen-go-grpc is installed
 if ! command -v protoc-gen-go-grpc &> /dev/null; then
     echo "Warning: protoc-gen-go-grpc not found. Installing..."
-    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+    go install "google.golang.org/grpc/cmd/protoc-gen-go-grpc@${PROTOC_GEN_GO_GRPC_VERSION}"
+fi
+
+mapfile -t PROTO_FILES < <(find proto -name "*.proto" | sort)
+
+if [ ${#PROTO_FILES[@]} -eq 0 ]; then
+    echo "Error: no proto files found under ./proto"
+    exit 1
 fi
 
 # Generate files
 "$PROTOC_BIN" --go_out=contract --go_opt=paths=source_relative \
        --go-grpc_out=contract --go-grpc_opt=paths=source_relative \
-       --proto_path=proto \
-       --proto_path=tools/protoc/include \
-       proto/outbox/outbox.proto proto/user/user.proto proto/campaign/campaign.proto
+       "${PROTO_INCLUDE_ARGS[@]}" \
+       "${PROTO_FILES[@]}"
 
 if [ $? -eq 0 ]; then
     echo "Successfully generated Go files!"
-    echo "  - contract/outbox/outbox.pb.go"
-    echo "  - contract/outbox/outbox_grpc.pb.go"
-    echo "  - contract/user/user.pb.go"
-    echo "  - contract/user/user_grpc.pb.go"
-    echo "  - contract/campaign/campaign.pb.go"
-    echo "  - contract/campaign/campaign_grpc.pb.go"
+    echo "Generated folders:"
+    find contract -type d | sort
 else
     echo "Error: Failed to generate Go files"
     exit 1

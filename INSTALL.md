@@ -48,8 +48,8 @@ source ~/.bashrc
 بعد از نصب `protoc`، پلاگین‌های Go را نصب کنید:
 
 ```bash
-go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.33.0
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.4.0
 ```
 
 **مهم**: مطمئن شوید که `$GOPATH/bin` یا `$HOME/go/bin` در PATH شما است.
@@ -66,7 +66,7 @@ protoc --version
 
 ## تولید فایل‌های Go
 
-بعد از نصب، می‌توانید فایل‌های Go را تولید کنید:
+بعد از نصب، می‌توانید فایل‌های Go را از تمام فایل‌های versioned protobuf زیر `proto/` تولید کنید:
 
 ```bash
 # در Git Bash
@@ -79,6 +79,8 @@ protoc --version
 make proto
 ```
 
+فایل‌های generated زیر مسیر `contract/<service>/v1/` قرار می‌گیرند و نباید دستی ویرایش شوند.
+
 ## عیب‌یابی
 
 ### خطا: `protoc: command not found`
@@ -89,11 +91,11 @@ make proto
 
 ### خطا: `protoc-gen-go: program not found`
 
-- `go install google.golang.org/protobuf/cmd/protoc-gen-go@latest` را اجرا کنید
+- `go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.33.0` را اجرا کنید
 - مطمئن شوید `$GOPATH/bin` در PATH است
 
 ### خطا: `protoc-gen-go-grpc: program not found`
 
-- `go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest` را اجرا کنید
+- `go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.4.0` را اجرا کنید
 - مطمئن شوید `$GOPATH/bin` در PATH است
 

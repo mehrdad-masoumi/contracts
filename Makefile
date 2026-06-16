@@ -1,8 +1,10 @@
 .PHONY: proto clean deps tidy
 
 TOOLS_PROTOC := $(firstword $(wildcard tools/protoc/bin/protoc tools/protoc/bin/protoc.exe))
-PROTO_FILES := $(wildcard proto/outbox/*.proto) $(wildcard proto/user/*.proto) $(wildcard proto/campaign/*.proto)
+PROTO_FILES := $(shell find proto -name "*.proto")
 PROTOC_INCLUDE := --proto_path=proto
+PROTOC_GEN_GO_VERSION ?= v1.33.0
+PROTOC_GEN_GO_GRPC_VERSION ?= v1.4.0
 
 ifeq ($(TOOLS_PROTOC),)
 PROTOC ?= protoc
@@ -23,15 +25,14 @@ proto:
 
 # Clean generated files
 clean:
-	rm -f contract/outbox/*.pb.go contract/outbox/*_grpc.pb.go
-	rm -f contract/user/*.pb.go contract/user/*_grpc.pb.go
-	rm -f contract/campaign/*.pb.go contract/campaign/*_grpc.pb.go
+	find contract -name "*.pb.go" -delete
+	find contract -name "*_grpc.pb.go" -delete
 
 # Install dependencies
 deps:
 	go mod download
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@$(PROTOC_GEN_GO_VERSION)
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@$(PROTOC_GEN_GO_GRPC_VERSION)
 
 # Tidy go.mod
 tidy:

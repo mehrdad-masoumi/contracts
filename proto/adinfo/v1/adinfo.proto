@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package adinfo.v1;
+
+option go_package = "github.com/mehrdad-masoumi/contracts/contract/adinfo/v1;adinfov1";
+
+// AdInfoResolveRequested is used when a service needs to resolve ad information by token.
+// This message is designed for RabbitMQ request/reply or async workflows.
+message AdInfoResolveRequested {
+  string request_id = 1;
+  string token = 2;
+}
+
+// AdInfoResolved is published when ad information has been resolved successfully.
+message AdInfoResolved {
+  string request_id = 1;
+  AdInfo data = 2;
+}
+
+// AdInfoResolveFailed is published when resolving ad information fails.
+message AdInfoResolveFailed {
+  string request_id = 1;
+  string token = 2;
+  string reason = 3;
+}
+
+// AdInfo represents ad/campaign data exchanged between services.
+message AdInfo {
+  string token = 1;
+  string url = 2;
+  int32 target = 3;
+  bool status = 4;
+  bool admin_test = 5;
+  bool tracker = 6;
+  string tracker_name = 7;
+  string tracker_channel = 8;
+  repeated string industry = 9;
+  bool auth_login = 10;
+  string encryption_key = 11;
+}

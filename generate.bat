@@ -1,6 +1,10 @@
 @echo off
 setlocal
 set PROTOC_BIN=
+set INCLUDE_ARGS=--proto_path=proto
+set PROTO_FILES=proto\outbox\v1\outbox.proto proto\adinfo\v1\adinfo.proto
+if "%PROTOC_GEN_GO_VERSION%"=="" set PROTOC_GEN_GO_VERSION=v1.33.0
+if "%PROTOC_GEN_GO_GRPC_VERSION%"=="" set PROTOC_GEN_GO_GRPC_VERSION=v1.4.0
 
 echo Generating Go files from protobuf...
 
@@ -30,16 +34,28 @@ exit /b 1
 :found_protoc
 echo Using protoc: %PROTOC_BIN%
 
-"%PROTOC_BIN%" --go_out=contract --go_opt=paths=source_relative --go-grpc_out=contract --go-grpc_opt=paths=source_relative --proto_path=proto --proto_path=tools\protoc\include proto\outbox\outbox.proto proto\user\user.proto proto\campaign\campaign.proto
+where protoc-gen-go >nul 2>&1
+if %ERRORLEVEL% NEQ 0 (
+    echo Warning: protoc-gen-go not found. Installing...
+    go install google.golang.org/protobuf/cmd/protoc-gen-go@%PROTOC_GEN_GO_VERSION%
+)
+
+where protoc-gen-go-grpc >nul 2>&1
+if %ERRORLEVEL% NEQ 0 (
+    echo Warning: protoc-gen-go-grpc not found. Installing...
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@%PROTOC_GEN_GO_GRPC_VERSION%
+)
+
+if exist "%~dp0tools\protoc\include" (
+    set INCLUDE_ARGS=%INCLUDE_ARGS% --proto_path=tools\protoc\include
+)
+
+"%PROTOC_BIN%" --go_out=contract --go_opt=paths=source_relative --go-grpc_out=contract --go-grpc_opt=paths=source_relative %INCLUDE_ARGS% %PROTO_FILES%
 
 if %ERRORLEVEL% EQU 0 (
     echo Successfully generated Go files!
-    echo   - contract\outbox\outbox.pb.go
-    echo   - contract\outbox\outbox_grpc.pb.go
-    echo   - contract\user\user.pb.go
-    echo   - contract\user\user_grpc.pb.go
-    echo   - contract\campaign\campaign.pb.go
-    echo   - contract\campaign\campaign_grpc.pb.go
+    echo Generated folders:
+    dir /s /b /ad contract
 ) else (
     echo Error: Failed to generate Go files
     exit /b 1
