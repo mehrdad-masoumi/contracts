@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package userindustry.v1;
+
+option go_package = "github.com/mehrdad-masoumi/contracts/contract/userindustry/v1;userindustryv1";
+
+// UserIndustryEvent is the published contract for USER_INDUSTRY_EVENT.
+message UserIndustryEvent {
+  string msisdn = 1;
+  repeated string industries = 2;
+}
